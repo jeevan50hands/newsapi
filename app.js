@@ -14,7 +14,7 @@ const GetNewsFromAPI = () => {
         } else if (body.error) {
             console.log(body.error);
         } else {
-            fs.writeFileSync('jobs_news.json', JSON.stringify({ NEWS: body.articles }))
+            fs.writeFileSync('https://50hands.org/api/jobs_news.json', JSON.stringify({ NEWS: body.articles }))
         }
     })
 }
