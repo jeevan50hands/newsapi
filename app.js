@@ -23,7 +23,7 @@ setInterval(() => {
     GetNewsFromAPI()
 }, 3600000);
 
-app.get('/jobnews', (req, res) => {
+app.get('/', (req, res) => {
     return res.send(JSON.parse(news))
 })
 
