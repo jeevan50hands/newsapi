@@ -3,7 +3,7 @@ const fs = require('fs')
 const express = require('express')
 const port = process.env.PORT || 3000
 const app = express()
-const news = fs.readFileSync('./jobs_news.json')
+const news = fs.readFileSync('https://50hands.org/api/jobs_news.json')
 
 const GetNewsFromAPI = () => {
     fs.unlinkSync("jobs_news.json")
@@ -14,7 +14,7 @@ const GetNewsFromAPI = () => {
         } else if (body.error) {
             console.log(body.error);
         } else {
-            fs.writeFileSync('jobs_news.json', JSON.stringify({ NEWS: body.articles }))
+            fs.writeFileSync('https://50hands.org/api/jobs_news.json', JSON.stringify({ NEWS: body.articles }))
         }
     })
 }
