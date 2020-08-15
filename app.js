@@ -3,10 +3,10 @@ const fs = require('fs')
 const express = require('express')
 const port = process.env.PORT || 3000
 const app = express()
-const news = fs.readFileSync('https://50hands.org/api/jobs_news.json')
+const news = fs.readFileSync('jobs_news.json')
 
 const GetNewsFromAPI = () => {
-    fs.unlinkSync("jobs_news.json")
+   
     url = "http://newsapi.org/v2/everything?q=Jobs&pageSize=100&sortBy=publishedAt&apiKey=5f84106dae3d475092fb76d3b5f148e5"
     request({ url, 'json': true }, (error, { body }) => {
         if (error) {
@@ -14,7 +14,7 @@ const GetNewsFromAPI = () => {
         } else if (body.error) {
             console.log(body.error);
         } else {
-            fs.writeFileSync('https://50hands.org/api/jobs_news.json', JSON.stringify({ NEWS: body.articles }))
+            fs.writeFileSync('jobs_news.json', JSON.stringify({ NEWS: body.articles }))
         }
     })
 }
