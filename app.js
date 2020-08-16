@@ -1,5 +1,6 @@
 const request = require('postman-request')
-const fs = require('fs')
+    // const fs = require('fs')
+var schedule = require('node-schedule');
 const express = require('express')
 const port = process.env.PORT || 3000
 const app = express()
@@ -7,7 +8,6 @@ const app = express()
 const news = { NEWS: '' }
 
 const GetNewsFromAPI = () => {
-    console.log('i am running');
     // fs.unlinkSync("jobs_news.json")
     url = "http://newsapi.org/v2/everything?q=Jobs&pageSize=100&sortBy=publishedAt&apiKey=5f84106dae3d475092fb76d3b5f148e5"
     request({ url, 'json': true }, (error, { body }) => {
@@ -22,9 +22,10 @@ const GetNewsFromAPI = () => {
     })
 }
 
-setInterval(() => {
+schedule.scheduleJob('*/1 * * * *', function() {
     GetNewsFromAPI()
-}, 300000);
+});
+
 
 app.get('/', (req, res) => {
     // return res.send(JSON.parse(news))
