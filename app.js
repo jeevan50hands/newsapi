@@ -9,7 +9,7 @@ const news = fs.readFileSync('jobs_news.json')
 
 const GetNewsFromAPI = () => {
     console.log('i am running');
-    fs.truncateSync("jobs_news.json")
+    fs.unlinkSync("jobs_news.json")
     url = "http://newsapi.org/v2/everything?q=Jobs&pageSize=100&sortBy=publishedAt&apiKey=5f84106dae3d475092fb76d3b5f148e5"
     request({ url, 'json': true }, (error, { body }) => {
         if (error) {
