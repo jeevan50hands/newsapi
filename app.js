@@ -20,7 +20,7 @@ const GetNewsFromAPI = () => {
 
 setInterval(() => {
     GetNewsFromAPI()
-}, 10000);
+}, 3600000);
 
 app.get('/', (req, res) => {
     return res.send(news)
