@@ -21,7 +21,7 @@ const GetNewsFromAPI = () => {
 
 setInterval(() => {
     GetNewsFromAPI()
-}, 3600000);
+}, 10000);
 
 app.get('/', (req, res) => {
     return res.send(JSON.parse(news))
