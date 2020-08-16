@@ -1,11 +1,15 @@
 const request = require('postman-request')
+const fs = require('fs')
 const express = require('express')
+const { LOADIPHLPAPI } = require('dns')
 const port = process.env.PORT || 3000
 const app = express()
-const news = { NEWS: '' }
+const news = fs.readFileSync('jobs_news.json')
+    // const news = { NEWS: '' }
 
 const GetNewsFromAPI = () => {
-
+    console.log('i am running');
+    fs.truncateSync("jobs_news.json")
     url = "http://newsapi.org/v2/everything?q=Jobs&pageSize=100&sortBy=publishedAt&apiKey=5f84106dae3d475092fb76d3b5f148e5"
     request({ url, 'json': true }, (error, { body }) => {
         if (error) {
@@ -13,14 +17,14 @@ const GetNewsFromAPI = () => {
         } else if (body.error) {
             console.log(body.error);
         } else {
-            news.NEWS = body.articles
+            fs.writeFileSync('jobs_news.json', JSON.stringify({ NEWS: body.articles }))
         }
     })
 }
 
 setInterval(() => {
     GetNewsFromAPI()
-}, 300000);
+}, 10000);
 
 app.get('/', (req, res) => {
     return res.send(news)
