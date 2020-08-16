@@ -1,7 +1,7 @@
 const request = require('postman-request')
 const fs = require('fs')
 const express = require('express')
-const { LOADIPHLPAPI } = require('dns')
+
 const port = process.env.PORT || 3000
 const app = express()
 const news = fs.readFileSync('jobs_news.json')
@@ -27,7 +27,7 @@ setInterval(() => {
 }, 10000);
 
 app.get('/', (req, res) => {
-    return res.send(news)
+    return res.send(JSON.parse(news))
 })
 
 app.listen(port, () => {
