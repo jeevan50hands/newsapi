@@ -1,6 +1,5 @@
 const request = require('postman-request')
     // const fs = require('fs')
-var schedule = require('node-schedule');
 const express = require('express')
 const port = process.env.PORT || 3000
 const app = express()
