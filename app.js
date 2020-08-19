@@ -1,14 +1,10 @@
 const request = require('postman-request')
-    // const fs = require('fs')
-var cronjob = require('cron').CronJob;
+const fs = require('fs')
 const express = require('express')
 const port = process.env.PORT || 3000
 const app = express()
-    // const news = fs.readFileSync('jobs_news.json')
-const news = { NEWS: '' }
 
 const GetNewsFromAPI = () => {
-    // fs.unlinkSync("jobs_news.json")
     url = "http://newsapi.org/v2/everything?q=Jobs&pageSize=100&sortBy=publishedAt&apiKey=5f84106dae3d475092fb76d3b5f148e5"
     request({ url, 'json': true }, (error, { body }) => {
         if (error) {
@@ -16,25 +12,26 @@ const GetNewsFromAPI = () => {
         } else if (body.error) {
             console.log(body.error);
         } else {
-            // fs.writeFileSync('jobs_news.json', JSON.stringify({ NEWS: body.articles }))
-            news.NEWS = body.articles
+            fs.unlinkSync("jobs_news.json")
+            fs.writeFileSync('jobs_news.json', JSON.stringify({ NEWS: body.articles }))
+
         }
     })
 }
-let a = 0
-schedule = new cronjob('*/1 * * * * *', function() {
-    console.log('pass');
-    return a += 1
-});
-schedule.start();
-// setInterval(() => {
-//     GetNewsFromAPI()
-// }, 1000);
+app.get('/news', (req, res) => {
+    GetNewsFromAPI()
+    return res.send({ NEWS: "Done" })
+})
 
 app.get('/', (req, res) => {
-    // return res.send(JSON.parse(news))
-    return res.send(JSON.stringify({ number: a }))
 
+    return res.send({ NEWS: "Get News" })
+})
+
+
+app.get('/getnews', (req, res) => {
+    const news = fs.readFileSync('jobs_news.json')
+    return res.send(JSON.parse(news))
 })
 
 app.listen(port, () => {
